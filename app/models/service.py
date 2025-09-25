@@ -15,4 +15,4 @@ class Service(Base):
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
     bookings = relationship("Booking", back_populates="service")
-    reviews = relationship("Review", back_populates="service")
+    

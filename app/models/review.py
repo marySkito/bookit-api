@@ -13,4 +13,4 @@ class Review(Base):
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
     booking = relationship("Booking", back_populates="review")
-    service = relationship("Service", secondary="bookings", back_populates="reviews", viewonly=True)
+    # Remove this line - we don't need direct service relationship
