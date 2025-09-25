@@ -1,6 +1,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from .routers import auth, users, services, bookings, reviews
+from .routers.auth import router as auth_router
+from app.routers.users import router as users_router
+from .routers.services import router as services_router
+from .routers.bookings import router as bookings_router
+from .routers.reviews import router as reviews_router
 from .config import settings
 import logging
 
@@ -28,11 +32,11 @@ app.add_middleware(
 )
 
 # Include routers
-app.include_router(auth.router, prefix="/auth", tags=["auth"])
-app.include_router(users.router, prefix="/me", tags=["users"])
-app.include_router(services.router, prefix="/services", tags=["services"])
-app.include_router(bookings.router, prefix="/bookings", tags=["bookings"])
-app.include_router(reviews.router, prefix="/reviews", tags=["reviews"])
+app.include_router(auth_router, prefix="/auth", tags=["auth"])
+app.include_router(users_router, prefix="/me", tags=["users"])
+app.include_router(services_router, prefix="/services", tags=["services"])
+app.include_router(bookings_router, prefix="/bookings", tags=["bookings"])
+app.include_router(reviews_router, prefix="/reviews", tags=["reviews"])
 
 @app.get("/")
 async def root():
