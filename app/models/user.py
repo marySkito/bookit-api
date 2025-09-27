@@ -18,4 +18,4 @@ class User(Base):
     role = Column(Enum(UserRole), default=UserRole.USER, nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
-    bookings = relationship("Booking", back_populates="user")
+    bookings = relationship("Booking", back_populates="service")
