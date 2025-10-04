@@ -1,38 +1,29 @@
-# Bookit API
+Bookit API
 
-A m with user authentication, service management, and review features.  
+A m with user authentication, service management, and review features.
 Includes PostgreSQL database integration and Alembic migrations.
 
-## Features
+Features
+User registration & authentication (JWT)
+Service listing and booking
+Booking status management
+User reviews for services
+PostgreSQL database with SQLAlchemy ORM
+Alembic for database migrations
+Dockerized for easy development
+Requirements
+Python 3.10+
+PostgreSQL
+Docker (optional, for containerized setup)
+Setup
 
-- User registration & authentication (JWT)
-- Service listing and booking
-- Booking status management
-- User reviews for services
-- PostgreSQL database with SQLAlchemy ORM
-- Alembic for database migrations
-- Dockerized for easy development
-
-## Requirements
-
-- Python 3.10+
-- PostgreSQL
-- Docker (optional, for containerized setup)
-
-## Setup
-
-### 1. Clone the repository
-
-```sh
+1. Clone the repository
 git clone https://github.com/yourusername/bookit-api.git
 cd bookit-api
-```
 
-### 2. Configure Environment Variables
+2. Configure Environment Variables
+Edit the .env file with your database credentials:
 
-Edit the `.env` file with your database credentials:
-
-```
 DATABASE_URL=postgresql+psycopg2://postgres:yourpassword@localhost:5432/bookitdb
 SECRET_KEY=your-super-secret-key
 ALGORITHM=HS256
@@ -40,43 +31,22 @@ ACCESS_TOKEN_EXPIRE_MINUTES=30
 REFRESH_TOKEN_EXPIRE_DAYS=7
 ENVIRONMENT=development
 LOG_LEVEL=INFO
-```
 
-### 3. Install Dependencies
-
-```sh
+3. Install Dependencies
 pip install -r requirements.txt
-```
 
-### 4. Run Database Migrations
-
-```sh
+4. Run Database Migrations
 alembic upgrade head
-```
 
-### 5. Start the API
-
-```sh
+5. Start the API
 uvicorn app.main:app --reload
-```
+Visit http://localhost:8000/docs for the interactive API docs.
 
-Visit [http://localhost:8000/docs](http://localhost:8000/docs) for the interactive API docs.
-
----
-
-## Docker Usage
-
+Docker Usage
 To run the API and database with Docker Compose:
 
-```sh
 docker compose up --build
-```
-
----
-
-## Project Structure
-
-```
+Project Structure
 app/
   ├── main.py
   ├── models/
@@ -89,16 +59,9 @@ alembic/
   ├── env.py
 requirements.txt
 .env
-```
 
----
-
-## License
-
+License
 MIT
 
----
-
-## Author
-
+Author
 Mary Okpe

@@ -1,21 +1,42 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from ..database import get_db
-from ..dependencies import get_current_user
-from ..schemas.user import UserResponse, UserUpdate
-from ..services.user_service import UserService
+from app.models.user import UserRole
+from app.repositories.user_repository import UserRepository
+from app.schemas.user import UserCreate
+from app.utils.auth import get_password_hash
+from app.database import get_db
 
 router = APIRouter()
 
-@router.get("/", response_model=UserResponse)
-def get_current_user_profile(current_user = Depends(get_current_user)):
-    return current_user
-
-@router.patch("/", response_model=UserResponse)
-def update_current_user(
-    user_data: UserUpdate,
-    current_user = Depends(get_current_user),
+@router.post("/users/create-admin")
+def create_admin_user(
+    name: str, 
+    email: str, 
+    password: str, 
     db: Session = Depends(get_db)
 ):
-    user_service = UserService(db)
-    return user_service.update_user(current_user, user_data)
+    user_repo = UserRepository(db)
+    
+    # Check if user exists
+    if user_repo.get_by_email(email):
+        raise HTTPException(status_code=400, detail="User already exists")
+    
+    # Create UserCreate schema
+    user_data = UserCreate(name=name, email=email, password=password)
+    
+    # Hash password
+    password_hash = get_password_hash(password)
+    
+    # Create user
+    user = user_repo.create(user_data, password_hash)
+    
+    # Update to admin role
+    user.role = UserRole.ADMIN
+    db.commit()
+    
+    return {
+        "msg": "Admin user created",
+        "email": email,
+        "role": "admin"
+    }
+       
